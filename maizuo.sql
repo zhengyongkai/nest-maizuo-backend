@@ -1,34 +1,52 @@
--- --------------------------------------------------------
--- 主機:                           127.0.0.1
--- 伺服器版本:                        5.7.26 - MySQL Community Server (GPL)
--- 伺服器作業系統:                      Win64
--- HeidiSQL 版本:                  12.5.0.6677
--- --------------------------------------------------------
+﻿# Host: localhost  (Version: 5.7.26)
+# Date: 2023-12-24 21:43:36
+# Generator: MySQL-Front 5.3  (Build 4.234)
 
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
 /*!40101 SET NAMES utf8 */;
-/*!50503 SET NAMES utf8mb4 */;
-/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
-/*!40103 SET TIME_ZONE='+00:00' */;
-/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
-/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
-/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
+#
+# Structure for table "coupon"
+#
 
--- 傾印 maizuo 的資料庫結構
-CREATE DATABASE IF NOT EXISTS `maizuo` /*!40100 DEFAULT CHARACTER SET utf8 COLLATE utf8_unicode_ci */;
-USE `maizuo`;
+DROP TABLE IF EXISTS `coupon`;
+CREATE TABLE `coupon` (
+  `couponId` int(11) NOT NULL,
+  `couponName` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `expiration` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`couponId`)
+) ENGINE=MyISAM AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='优惠券';
 
--- 傾印  資料表 maizuo.order 結構
-CREATE TABLE IF NOT EXISTS `order` (
+#
+# Data for table "coupon"
+#
+
+/*!40000 ALTER TABLE `coupon` DISABLE KEYS */;
+INSERT INTO `coupon` VALUES (1,'永久优惠券','1020'),(2,'临时优惠券','1020');
+/*!40000 ALTER TABLE `coupon` ENABLE KEYS */;
+
+#
+# Structure for table "order"
+#
+
+DROP TABLE IF EXISTS `order`;
+CREATE TABLE `order` (
   `userId` int(255) NOT NULL,
   `cinemaId` int(255) NOT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
--- 取消選取資料匯出。
+#
+# Data for table "order"
+#
 
--- 傾印  資料表 maizuo.user 結構
-CREATE TABLE IF NOT EXISTS `user` (
+/*!40000 ALTER TABLE `order` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+
+#
+# Structure for table "user"
+#
+
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
   `gender` int(11) NOT NULL,
   `headIcon` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `password` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
@@ -41,10 +59,30 @@ CREATE TABLE IF NOT EXISTS `user` (
   PRIMARY KEY (`uid`)
 ) ENGINE=MyISAM AUTO_INCREMENT=3 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci COMMENT='用户表';
 
--- 取消選取資料匯出。
+#
+# Data for table "user"
+#
 
-/*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
-/*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
-/*!40014 SET FOREIGN_KEY_CHECKS=IFNULL(@OLD_FOREIGN_KEY_CHECKS, 1) */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40111 SET SQL_NOTES=IFNULL(@OLD_SQL_NOTES, 1) */;
+/*!40000 ALTER TABLE `user` DISABLE KEYS */;
+INSERT INTO `user` VALUES (1,'1','1','1','1','1','1',1,'J6100405');
+/*!40000 ALTER TABLE `user` ENABLE KEYS */;
+
+#
+# Structure for table "user_coupon"
+#
+
+DROP TABLE IF EXISTS `user_coupon`;
+CREATE TABLE `user_coupon` (
+  `id` int(11) NOT NULL,
+  `uid` int(11) NOT NULL,
+  `couponId` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+#
+# Data for table "user_coupon"
+#
+
+/*!40000 ALTER TABLE `user_coupon` DISABLE KEYS */;
+INSERT INTO `user_coupon` VALUES (1,1,1),(2,1,2);
+/*!40000 ALTER TABLE `user_coupon` ENABLE KEYS */;
