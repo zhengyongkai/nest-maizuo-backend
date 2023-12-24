@@ -10,11 +10,16 @@ import { UserModule } from './user/user.module';
 import { join } from 'path';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/auth';
+import { DevtoolsModule } from '@nestjs/devtools-integration';
+import { UserCouponModule } from './user/user-coupon/user-coupon.module';
 
 @Module({
   imports: [
+    DevtoolsModule.register({
+      http: process.env.NODE_ENV !== 'production',
+    }),
     HttpModule,
-
+    OrderModule,
     TypeOrmModule.forRoot({
       type: 'mysql',
       host: 'localhost',
@@ -23,12 +28,12 @@ import { jwtConstants } from './constants/auth';
       password: '123456',
       database: 'maizuo',
       entities: [join(__dirname, '**', '*.entity.{js,ts}')],
-      synchronize: true,
+      // synchronize: true,
     }),
     UserModule,
-    OrderModule,
+    UserCouponModule,
   ],
   controllers: [AppController, OrderController],
-  providers: [AppService, OrderService],
+  providers: [AppService],
 })
 export class AppModule {}

@@ -8,7 +8,6 @@ export class AppController {
 
   @Get()
   getHello() {
-    console.log(Mock);
     return Mock.mock('@integer(1,9999)');
   }
 }

@@ -18,11 +18,10 @@ export class UsersService {
     private jwtService: JwtService,
   ) {}
 
-  async getOne(userId: string): Promise<User> {
+  async getOne(uid: number): Promise<User> {
     const user = await this.usersRepository.findOne({
-      where: { userId },
+      where: { uid },
     });
-    console.log(user, userId);
     return user;
   }
 
@@ -32,14 +31,14 @@ export class UsersService {
     });
 
     if (user) {
-      const payload = { userId, password };
-      console.log(userId, password);
+      const payload = { uid: user.uid, password };
+
       if (password === user.password) {
-        const user = await this.getOne(userId);
+        const userData = await this.getOne(user.uid);
         return {
           status: 0,
           data: {
-            ...user,
+            ...userData,
             token: await this.jwtService.signAsync(payload, {
               secret: jwtConstants.secret,
             }),

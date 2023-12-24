@@ -11,7 +11,7 @@ import {
   Body,
 } from '@nestjs/common';
 import { UsersService } from './user.service';
-import { AuthGuard } from './user.guard';
+import { AuthGuard } from '../utils/user.guard';
 
 @Controller('user')
 export class UserController {
@@ -24,9 +24,9 @@ export class UserController {
   @UseGuards(AuthGuard)
   @Get('/getInfo')
   async getInfo(@Request() req) {
-    console.log('good', req.user);
     if (req.user) {
-      const data = await this.appService.getOne(req.user.userId);
+      console.log(req.user);
+      const data = await this.appService.getOne(req.user.uid);
       if (data) {
         return {
           status: 0,
