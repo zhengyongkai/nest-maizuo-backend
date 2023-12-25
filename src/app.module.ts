@@ -10,14 +10,10 @@ import { UserModule } from './user/user.module';
 import { join } from 'path';
 import { JwtModule } from '@nestjs/jwt';
 import { jwtConstants } from './constants/auth';
-import { DevtoolsModule } from '@nestjs/devtools-integration';
 import { UserCouponModule } from './user/user-coupon/user-coupon.module';
 
 @Module({
   imports: [
-    DevtoolsModule.register({
-      http: process.env.NODE_ENV !== 'production',
-    }),
     HttpModule,
     OrderModule,
     TypeOrmModule.forRoot({

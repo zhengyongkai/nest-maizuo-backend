@@ -10,8 +10,8 @@ export class CouponService {
     private couponRepository: Repository<Coupon>,
   ) {}
 
-  async getOne(couponId: number): Promise<Array<Coupon>> {
-    const user = await this.couponRepository.find({
+  async getOne(couponId: number): Promise<Coupon> {
+    const user = await this.couponRepository.findOne({
       where: { couponId },
     });
     return user;

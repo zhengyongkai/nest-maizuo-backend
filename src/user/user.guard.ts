@@ -6,6 +6,8 @@
 import {
   CanActivate,
   ExecutionContext,
+  HttpException,
+  HttpStatus,
   Injectable,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -21,7 +23,13 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request) as string;
     if (!token) {
-      throw new UnauthorizedException();
+      throw new HttpException(
+        {
+          status: HttpStatus.UNAUTHORIZED,
+          error: '登录状态已经过期',
+        },
+        HttpStatus.OK,
+      );
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {

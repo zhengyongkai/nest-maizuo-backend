@@ -3,14 +3,13 @@
  * @LastEditors: 郑永楷
  * @Description: file content
  */
-import * as fs from 'fs';
-import { NestFactory, PartialGraphHost } from '@nestjs/core';
+import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
-
+  app.enableCors();
   const config = new DocumentBuilder()
     .addBearerAuth() // 此处添加
     .setTitle('测试平台')
