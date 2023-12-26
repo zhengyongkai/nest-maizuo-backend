@@ -18,6 +18,10 @@ import { CouponController } from './coupon/coupon.controller';
 import { CouponService } from './coupon/coupon.service';
 import { CouponModule } from './coupon/coupon.module';
 import { Coupon } from './coupon/coupon.entity';
+import { UserOrderController } from './user-order/user-order.controller';
+import { UserOrderService } from './user-order/user-order.service';
+import { UserOrderModule } from './user-order/user-order.module';
+import { SeatModule } from './seat/seat.module';
 
 @Module({
   imports: [
@@ -29,9 +33,22 @@ import { Coupon } from './coupon/coupon.entity';
     }),
     UserCouponModule,
     CouponModule,
+    UserOrderModule,
+    SeatModule,
   ],
-  controllers: [UserController, UserCouponController, CouponController],
-  providers: [UsersService, JwtService, UserCouponService, CouponService],
+  controllers: [
+    UserController,
+    UserCouponController,
+    CouponController,
+    UserOrderController,
+  ],
+  providers: [
+    UsersService,
+    JwtService,
+    UserCouponService,
+    CouponService,
+    UserOrderService,
+  ],
   exports: [UsersService],
 })
 export class UserModule {}

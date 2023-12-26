@@ -25,7 +25,6 @@ export class UserController {
   @Get('/getInfo')
   async getInfo(@Request() req) {
     if (req.user) {
-      console.log(req.user);
       const data = await this.appService.getOne(req.user.uid);
       if (data) {
         return {

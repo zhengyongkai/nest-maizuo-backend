@@ -19,24 +19,19 @@ export class UserCouponController {
       const couponUserList = await this.appService.getCouponUserById(
         req.user.uid,
       );
-      let result = [];
+      const result = [];
       for (const couponUser of couponUserList) {
-        const coupon = await this.couponSevice.getAllCouponByCouponId(
-          couponUser.couponId,
-        );
+        const coupon = await this.couponSevice.getOne(couponUser.couponId);
         // console.log(date.getTime(), coupon.expiration);
-        coupon.forEach((item) => {
-          item.remission = item.remission * 100;
-          if (date.getTime() < item.expiration * 1000) {
-            item.isExpia = false;
-          } else {
-            item.isExpia = true;
-          }
-          result.push(item);
-        });
+        coupon.remission = coupon.remission * 100;
+        if (date.getTime() < coupon.expiration * 1000) {
+          coupon.isExpia = false;
+        } else {
+          coupon.isExpia = true;
+        }
         // break;
+        result.push(coupon);
       }
-      result = result.sort((a, b) => b.expiration - a.expiration);
       return {
         status: 0,
         data: result,
