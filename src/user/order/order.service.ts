@@ -22,11 +22,15 @@ export class OrderService {
 
   async addOrder(params): Promise<any> {
     const { raw } = await this.orderResitory.insert(params);
-    const data = await this.seatResitory.addSeat(params.seat);
-    console.log('data', data);
-    return {
-      id: raw.insertId,
-      data: data,
-    };
+
+    console.log(raw.insertId);
+    return raw.insertId;
+  }
+
+  async getOrderById(orderId) {
+    const orders = await this.orderResitory.findOne({
+      where: { orderId },
+    });
+    return orders;
   }
 }

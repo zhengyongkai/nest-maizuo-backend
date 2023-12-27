@@ -8,9 +8,9 @@ import { OrderModule } from './user/order/order.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModule } from './user/user.module';
 import { join } from 'path';
-import { JwtModule } from '@nestjs/jwt';
-import { jwtConstants } from './constants/auth';
+
 import { UserCouponModule } from './user/user-coupon/user-coupon.module';
+import { SeatModule } from './user/seat/seat.module';
 
 @Module({
   imports: [
@@ -28,6 +28,8 @@ import { UserCouponModule } from './user/user-coupon/user-coupon.module';
     }),
     UserModule,
     UserCouponModule,
+    OrderModule,
+    SeatModule,
   ],
   controllers: [AppController, OrderController],
   providers: [AppService],

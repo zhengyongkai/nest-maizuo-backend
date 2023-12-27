@@ -22,10 +22,17 @@ import { UserOrderController } from './user-order/user-order.controller';
 import { UserOrderService } from './user-order/user-order.service';
 import { UserOrderModule } from './user-order/user-order.module';
 import { SeatModule } from './seat/seat.module';
+import { OrderModule } from './order/order.module';
+import { OrderController } from './order/order.controller';
+import { OrderService } from './order/order.service';
+import { Order } from './order/order.entity';
+import { SeatController } from './seat/seat.controller';
+import { SeatService } from './seat/seat.service';
+import { Seat } from './seat/seat.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, UserCoupon, Coupon]),
+    TypeOrmModule.forFeature([User, UserCoupon, Coupon, Order, Seat]),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -34,6 +41,7 @@ import { SeatModule } from './seat/seat.module';
     UserCouponModule,
     CouponModule,
     UserOrderModule,
+    OrderModule,
     SeatModule,
   ],
   controllers: [
@@ -41,6 +49,8 @@ import { SeatModule } from './seat/seat.module';
     UserCouponController,
     CouponController,
     UserOrderController,
+    OrderController,
+    SeatController,
   ],
   providers: [
     UsersService,
@@ -48,6 +58,8 @@ import { SeatModule } from './seat/seat.module';
     UserCouponService,
     CouponService,
     UserOrderService,
+    OrderService,
+    SeatService,
   ],
   exports: [UsersService],
 })

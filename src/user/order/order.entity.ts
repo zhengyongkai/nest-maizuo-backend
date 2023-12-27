@@ -68,5 +68,15 @@ export class Order {
   })
   scheduleId: number;
 
+  @Column({
+    name: 'status',
+  })
+  status: number;
+
+  @Column({
+    name: 'price',
+  })
+  price: number;
+
   seatList: Seat[];
 }

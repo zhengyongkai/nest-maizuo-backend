@@ -15,7 +15,7 @@ export class Seat {
   @Column({
     name: 'orderId',
   })
-  orderId: string;
+  orderId: number;
 
   @Column({
     name: 'columnId',

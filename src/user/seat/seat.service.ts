@@ -14,4 +14,11 @@ export class SeatService {
     const { raw } = await this.seatResitory.insert(params);
     return raw;
   }
+
+  async getSeatByOrderId(orderId: number) {
+    const data = await this.seatResitory.find({
+      where: { orderId },
+    });
+    return data;
+  }
 }

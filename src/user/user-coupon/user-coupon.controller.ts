@@ -22,15 +22,17 @@ export class UserCouponController {
       const result = [];
       for (const couponUser of couponUserList) {
         const coupon = await this.couponSevice.getOne(couponUser.couponId);
-        // console.log(date.getTime(), coupon.expiration);
-        coupon.remission = coupon.remission * 100;
-        if (date.getTime() < coupon.expiration * 1000) {
-          coupon.isExpia = false;
-        } else {
-          coupon.isExpia = true;
+        if (coupon) {
+          // console.log(date.getTime(), coupon.expiration);
+          coupon.remission = coupon.remission * 100;
+          if (date.getTime() < coupon.expiration * 1000) {
+            coupon.isExpia = false;
+          } else {
+            coupon.isExpia = true;
+          }
+          // break;
+          result.push(coupon);
         }
-        // break;
-        result.push(coupon);
       }
       return {
         status: 0,
