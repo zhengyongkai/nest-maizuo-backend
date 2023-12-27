@@ -78,5 +78,15 @@ export class Order {
   })
   price: number;
 
+  @Column({
+    name: 'poster',
+  })
+  poster: number;
+
+  @Column({
+    name: 'address',
+  })
+  address: number;
+
   seatList: Seat[];
 }
