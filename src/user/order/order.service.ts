@@ -13,9 +13,10 @@ export class OrderService {
     private seatResitory: SeatService,
   ) {}
 
-  async getOrderByUserId(userId: number): Promise<Order> {
-    const orders = await this.orderResitory.findOne({
+  async getOrderByUserId(userId: number): Promise<Order[]> {
+    const orders = await this.orderResitory.find({
       where: { userId },
+      order: { createDate: 'DESC' },
     });
     return orders;
   }

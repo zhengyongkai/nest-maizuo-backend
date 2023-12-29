@@ -36,9 +36,17 @@ export class OrderController {
 
   @UseGuards(AuthGuard)
   @Get('/getOrderByUserId')
-  getOrderByUserId(@Request() req) {
+  async getOrderByUserId(@Request() req) {
     if (req.user) {
-      return this.appService.getOrderByUserId(req.user.uid);
+      const order = await this.appService.getOrderByUserId(req.user.uid);
+      for (const i of order) {
+        i.seatList = await this.seatService.getSeatByOrderId(i.orderId);
+      }
+      return {
+        status: 0,
+        data: order,
+        msg: '成功',
+      };
     }
   }
 
@@ -47,6 +55,7 @@ export class OrderController {
   async addOrder(@Request() req, @Body() createOrderDto: Order) {
     if (req.user) {
       createOrderDto.userId = req.user.uid;
+      createOrderDto.createDate = new Date().getTime().toString();
       const id = await this.appService.addOrder(createOrderDto);
       createOrderDto.seatList.forEach((item) => {
         item.orderId = id;

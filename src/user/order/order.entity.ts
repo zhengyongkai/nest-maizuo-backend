@@ -46,7 +46,7 @@ export class Order {
   @Column({
     name: 'hallId',
   })
-  hallId: number;
+  hallId: string;
 
   @Column({
     name: 'hallName',
@@ -87,6 +87,11 @@ export class Order {
     name: 'address',
   })
   address: number;
+
+  @Column({
+    name: 'createDate',
+  })
+  createDate: string;
 
   seatList: Seat[];
 }
