@@ -7,9 +7,10 @@ import { SeatModule } from 'src/user/seat/seat.module';
 import { Seat } from 'src/user/seat/seat.entity';
 import { SeatService } from '../seat/seat.service';
 import { SeatController } from '../seat/seat.controller';
+import { DictModule } from '../dict/dict.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order]), SeatModule],
+  imports: [TypeOrmModule.forFeature([Order]), SeatModule, DictModule],
   controllers: [OrderController],
   exports: [OrderService],
   providers: [OrderService],

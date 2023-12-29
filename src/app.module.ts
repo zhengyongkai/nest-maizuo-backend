@@ -11,6 +11,7 @@ import { join } from 'path';
 
 import { UserCouponModule } from './user/user-coupon/user-coupon.module';
 import { SeatModule } from './user/seat/seat.module';
+import { DictModule } from './user/dict/dict.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { SeatModule } from './user/seat/seat.module';
     UserCouponModule,
     OrderModule,
     SeatModule,
+    DictModule,
   ],
   controllers: [AppController, OrderController],
   providers: [AppService],

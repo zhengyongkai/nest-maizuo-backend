@@ -17,7 +17,10 @@ export class Order {
     name: 'orderId',
   })
   orderId: number;
-
+  @Column({
+    name: 'oNum',
+  })
+  oNum: string;
   @Column({
     name: 'userId',
   })
@@ -94,4 +97,6 @@ export class Order {
   createDate: string;
 
   seatList: Seat[];
+
+  statusName: string;
 }

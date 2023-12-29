@@ -29,10 +29,14 @@ import { Order } from './order/order.entity';
 import { SeatController } from './seat/seat.controller';
 import { SeatService } from './seat/seat.service';
 import { Seat } from './seat/seat.entity';
+import { DictModule } from './dict/dict.module';
+import { DictService } from './dict/dict.service';
+import { DictController } from './dict/dict.controller';
+import { Dict } from './dict/dict.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([User, UserCoupon, Coupon, Order, Seat]),
+    TypeOrmModule.forFeature([User, UserCoupon, Coupon, Order, Seat, Dict]),
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
@@ -43,6 +47,7 @@ import { Seat } from './seat/seat.entity';
     UserOrderModule,
     OrderModule,
     SeatModule,
+    DictModule,
   ],
   controllers: [
     UserController,
@@ -51,6 +56,7 @@ import { Seat } from './seat/seat.entity';
     UserOrderController,
     OrderController,
     SeatController,
+    DictController,
   ],
   providers: [
     UsersService,
@@ -60,6 +66,7 @@ import { Seat } from './seat/seat.entity';
     UserOrderService,
     OrderService,
     SeatService,
+    DictService,
   ],
   exports: [UsersService],
 })
