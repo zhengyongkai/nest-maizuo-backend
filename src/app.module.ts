@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { HttpModule } from '@nestjs/axios';
+import { HttpModule, HttpService } from '@nestjs/axios';
 import { OrderController } from './user/order/order.controller';
 import { OrderService } from './user/order/order.service';
 import { OrderModule } from './user/order/order.module';
@@ -32,6 +32,7 @@ import { DictModule } from './user/dict/dict.module';
     OrderModule,
     SeatModule,
     DictModule,
+    HttpModule,
   ],
   controllers: [AppController, OrderController],
   providers: [AppService],

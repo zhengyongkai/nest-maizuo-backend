@@ -33,6 +33,7 @@ import { DictModule } from './dict/dict.module';
 import { DictService } from './dict/dict.service';
 import { DictController } from './dict/dict.controller';
 import { Dict } from './dict/dict.entity';
+import { HttpModule, HttpService } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -48,6 +49,7 @@ import { Dict } from './dict/dict.entity';
     OrderModule,
     SeatModule,
     DictModule,
+    HttpModule,
   ],
   controllers: [
     UserController,

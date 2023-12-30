@@ -8,9 +8,15 @@ import { Seat } from 'src/user/seat/seat.entity';
 import { SeatService } from '../seat/seat.service';
 import { SeatController } from '../seat/seat.controller';
 import { DictModule } from '../dict/dict.module';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Order]), SeatModule, DictModule],
+  imports: [
+    TypeOrmModule.forFeature([Order]),
+    SeatModule,
+    DictModule,
+    HttpModule,
+  ],
   controllers: [OrderController],
   exports: [OrderService],
   providers: [OrderService],
