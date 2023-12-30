@@ -96,6 +96,11 @@ export class Order {
   })
   createDate: string;
 
+  @Column({
+    name: 'cinemaPhone',
+  })
+  cinemaPhone: string;
+
   seatList: Seat[];
 
   statusName: string;
