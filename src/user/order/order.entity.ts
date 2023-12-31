@@ -101,6 +101,11 @@ export class Order {
   })
   cinemaPhone: string;
 
+  @Column({
+    name: 'tradeNo',
+  })
+  tradeNo: string;
+
   seatList: Seat[];
 
   statusName: string;

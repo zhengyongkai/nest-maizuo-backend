@@ -94,19 +94,25 @@ export class OrderController {
 
   @UseGuards(AuthGuard)
   @Post('/payOrder')
-  async payOrder(@Request() req) {
+  async payOrder(
+    @Request() req,
+    @Body()
+    params: { oNum: string; price: number; subject: string; orderId: number },
+  ) {
     if (req.user) {
+      const { oNum, price, subject, orderId } = params;
+      console.log(params);
       const result = await this.sdk.pageExec('alipay.trade.wap.pay', {
         bizContent: {
-          out_trade_no: '7050111111144S00141319',
-          total_amount: '9.00',
-          subject: '大乐透',
+          out_trade_no: oNum,
+          total_amount: price,
+          subject: subject,
           product_code: 'QUICK_WAP_WAY',
           seller_id: '2088721023738540',
+          goods_detail: [orderId],
         },
-        return_url: 'http://localhost:5173/#/name/home/nowPlaying',
+        return_url: 'http://localhost:5173/#/orderquery',
       });
-      console.log(result);
       return {
         status: 0,
         data: result,
@@ -122,29 +128,47 @@ export class OrderController {
     @Body() params: { out_trade_no: string; trade_no: string },
   ) {
     if (req.user) {
-      let msg = '';
       const { out_trade_no, trade_no } = params;
-      const result = await this.sdk.pageExec('alipay.trade.query', {
-        bizContent: {
-          out_trade_no,
-          trade_no,
-        },
-        method: 'get',
-      });
-      const { data } = await firstValueFrom(
-        this.httpSerivce.get(result).pipe(),
-      );
+      const order = await this.appService.getOrderByONum(out_trade_no);
+      console.log(order, out_trade_no);
+      if (order) {
+        const result = await this.sdk.pageExec('alipay.trade.query', {
+          bizContent: {
+            out_trade_no,
+            trade_no,
+            goods_detail: [order.orderId],
+          },
 
-      if (data.alipay_trade_query_response.trade_status === 'TRADE_SUCCESS') {
-        msg = '支付成功';
-      } else {
-        msg = '支付失败';
+          method: 'get',
+        });
+        const { data } = await firstValueFrom(
+          this.httpSerivce.get(result).pipe(),
+        );
+
+        if (data.alipay_trade_query_response.trade_status === 'TRADE_SUCCESS') {
+          await this.appService.changeOrderStatus(order.orderId, {
+            status: 1,
+            tradeNo: trade_no,
+          });
+          return {
+            status: 0,
+            data: '支付成功',
+            msg: '成功',
+          };
+          // this.appService.changeOrderStatus();
+        } else {
+          return {
+            status: 500,
+            data: '支付失败',
+            msg: '支付失败，请联系客服！',
+          };
+        }
       }
 
       return {
-        status: 0,
-        data: msg,
-        msg: '成功',
+        status: 500,
+        data: '支付失败',
+        msg: '订单不存在！',
       };
     }
   }

@@ -34,4 +34,21 @@ export class OrderService {
     });
     return orders;
   }
+
+  async getOrderByONum(oNum) {
+    const orders = await this.orderResitory.findOne({
+      where: { oNum },
+    });
+    return orders;
+  }
+
+  async changeOrderStatus(orderId, params) {
+    const order = await this.orderResitory.update(
+      {
+        orderId,
+      },
+      params,
+    );
+    return order;
+  }
 }
