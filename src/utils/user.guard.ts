@@ -17,11 +17,15 @@ import { Request } from 'express';
 export class AuthGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
-  async canActivate(context: ExecutionContext): Promise<boolean> {
+  async canActivate(context: ExecutionContext): Promise<any> {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request) as string;
     if (!token) {
-      throw new UnauthorizedException();
+      return {
+        status: 401,
+        data: '',
+        msg: '授权已失效',
+      };
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {

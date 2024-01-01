@@ -106,6 +106,11 @@ export class Order {
   })
   tradeNo: string;
 
+  @Column({
+    name: 'tradeTime',
+  })
+  tradeTime: string;
+
   seatList: Seat[];
 
   statusName: string;

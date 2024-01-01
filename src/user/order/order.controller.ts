@@ -14,6 +14,7 @@ import { Order } from './order.entity';
 import { SeatService } from '../seat/seat.service';
 import { getUUid } from 'src/utils';
 import { DictService } from '../dict/dict.service';
+import * as dayjs from 'dayjs';
 
 import AlipaySdk from 'alipay-sdk';
 import { HttpService } from '@nestjs/axios';
@@ -77,7 +78,7 @@ export class OrderController {
   async addOrder(@Request() req, @Body() createOrderDto: Order) {
     if (req.user) {
       createOrderDto.userId = req.user.uid;
-      createOrderDto.createDate = new Date().getTime().toString();
+      createOrderDto.createDate = dayjs().unix().toString();
       createOrderDto.oNum = getUUid();
       const id = await this.appService.addOrder(createOrderDto);
       createOrderDto.seatList.forEach((item) => {
@@ -144,11 +145,13 @@ export class OrderController {
         const { data } = await firstValueFrom(
           this.httpSerivce.get(result).pipe(),
         );
+        const trade_time = dayjs().unix().toString();
 
         if (data.alipay_trade_query_response.trade_status === 'TRADE_SUCCESS') {
           await this.appService.changeOrderStatus(order.orderId, {
             status: 1,
             tradeNo: trade_no,
+            tradeTime: trade_time,
           });
           return {
             status: 0,
