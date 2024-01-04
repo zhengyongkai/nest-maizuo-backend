@@ -1,11 +1,7 @@
 import {
   Controller,
-  ExecutionContext,
   Get,
   Post,
-  Query,
-  Param,
-  UnauthorizedException,
   Request,
   UseGuards,
   Body,
@@ -27,22 +23,12 @@ export class UserController {
     if (req.user) {
       const data = await this.appService.getOne(req.user.uid);
       if (data) {
-        return {
-          status: 0,
-          data: data,
-          msg: '成功',
-        };
+        return [0, data, true];
       } else {
-        return {
-          status: 401,
-          msg: '登录状态已经过期',
-        };
+        return [401, null, '登录状态已经过期'];
       }
     } else {
-      return {
-        status: 401,
-        msg: '登录状态已经过期',
-      };
+      return [401, null, '登录状态已经过期'];
     }
   }
 }

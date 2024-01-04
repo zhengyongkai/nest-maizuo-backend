@@ -35,27 +35,20 @@ export class UsersService {
 
       if (password === user.password) {
         const userData = await this.getOne(user.uid);
-        return {
-          status: 0,
-          data: {
+        return [
+          0,
+          {
             ...userData,
             token: await this.jwtService.signAsync(payload, {
               secret: jwtConstants.secret,
             }),
           },
-          msg: '成功',
-        };
+        ];
       } else {
-        return {
-          status: 500,
-          msg: '密码错误',
-        };
+        return [500, null, '密码错误'];
       }
     } else {
-      return {
-        status: 500,
-        msg: '账号不存在',
-      };
+      return [500, null, '账号不存在'];
     }
   }
 }

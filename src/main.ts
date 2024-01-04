@@ -6,11 +6,13 @@
 import { NestFactory } from '@nestjs/core';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import { TransformInterceptor } from './utils/transform.interceptor';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.enableCors();
+  app.useGlobalInterceptors(new TransformInterceptor());
   const config = new DocumentBuilder()
     .addBearerAuth() // 此处添加
     .setTitle('测试平台')

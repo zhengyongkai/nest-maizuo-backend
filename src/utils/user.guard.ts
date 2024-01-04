@@ -6,8 +6,9 @@
 import {
   CanActivate,
   ExecutionContext,
+  HttpException,
+  HttpStatus,
   Injectable,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants/auth';
@@ -21,11 +22,17 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request) as string;
     if (!token) {
-      return {
-        status: 401,
-        data: '',
-        msg: '授权已失效',
-      };
+      throw new HttpException(
+        {
+          status: 401,
+          data: null,
+          error: '授权已失效',
+        },
+        HttpStatus.OK,
+        {
+          cause: '',
+        },
+      );
     }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
@@ -36,6 +43,17 @@ export class AuthGuard implements CanActivate {
       request['user'] = payload;
     } catch {
       request['user'] = null;
+      throw new HttpException(
+        {
+          status: 401,
+          data: null,
+          error: '授权已失效',
+        },
+        HttpStatus.OK,
+        {
+          cause: '',
+        },
+      );
     }
     return true;
   }

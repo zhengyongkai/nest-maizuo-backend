@@ -34,16 +34,14 @@ export class UserCouponController {
           result.push(coupon);
         }
       }
+      return [0, result];
       return {
         status: 0,
         data: result,
         msg: '成功',
       };
     } else {
-      return {
-        status: 401,
-        msg: '登录状态已经过期',
-      };
+      return [401, '登录状态已经过期'];
     }
   }
 }
