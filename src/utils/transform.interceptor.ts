@@ -15,12 +15,12 @@ export class TransformInterceptor implements NestInterceptor {
         console.log(data);
         console.log({
           data: data[1],
-          code: data[0],
+          status: data[0],
           msg: data[2] || '成功',
         });
         return {
           data: data[1],
-          code: data[0],
+          status: data[0],
           msg: data[2],
         };
       }),

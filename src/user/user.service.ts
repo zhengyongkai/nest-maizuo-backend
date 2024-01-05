@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { User } from './user.entity';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from 'src/constants/auth';
+import { SHA256 } from 'crypto-js';
 
 @Injectable()
 export class UsersService {
@@ -33,7 +34,7 @@ export class UsersService {
     if (user) {
       const payload = { uid: user.uid, password };
 
-      if (password === user.password) {
+      if (password === SHA256(user.password).toString()) {
         const userData = await this.getOne(user.uid);
         return [
           0,
