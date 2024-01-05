@@ -149,7 +149,7 @@ export class OrderController {
             tradeNo: trade_no,
             tradeTime: trade_time,
           });
-          return [500, '支付成功'];
+          return [0, '支付成功'];
           // this.appService.changeOrderStatus();
         } else {
           return [500, '支付失败', '支付失败，请联系客服！'];
