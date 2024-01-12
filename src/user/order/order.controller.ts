@@ -119,6 +119,22 @@ export class OrderController {
   }
 
   @UseGuards(AuthGuard)
+  @Post('/finishOrder')
+  async finishOrder(
+    @Request() req,
+    @Body()
+    params: { orderId: number; actualPrice: number },
+  ) {
+    const { orderId, actualPrice } = params;
+    if (req.user) {
+      await this.appService.changeOrderStatus(orderId, {
+        actualPrice,
+      });
+      return [0, '提交成功'];
+    }
+  }
+
+  @UseGuards(AuthGuard)
   @Post('/queryOrder')
   async queryOrder(
     @Request() req,

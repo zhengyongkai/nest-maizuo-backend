@@ -48,6 +48,11 @@ export class User {
   })
   nickName: string;
 
+  @Column({
+    name: 'balance',
+  })
+  balance: number;
+
   @Exclude()
   @Column({
     name: 'password',

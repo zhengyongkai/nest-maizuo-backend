@@ -82,6 +82,11 @@ export class Order {
   price: number;
 
   @Column({
+    name: 'actualPrice',
+  })
+  actualPrice: number;
+
+  @Column({
     name: 'poster',
   })
   poster: number;

@@ -24,7 +24,7 @@ export class UserCouponController {
         const coupon = await this.couponSevice.getOne(couponUser.couponId);
         if (coupon) {
           // console.log(date.getTime(), coupon.expiration);
-          coupon.remission = coupon.remission * 100;
+          coupon.remission = coupon.remission;
           if (date.getTime() < coupon.expiration * 1000) {
             coupon.isExpia = false;
           } else {
