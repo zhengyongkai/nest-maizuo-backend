@@ -12,12 +12,8 @@ export class TransformInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     return next.handle().pipe(
       map((data) => {
-        console.log(data);
-        console.log({
-          data: data[1],
-          status: data[0],
-          msg: data[2] || '成功',
-        });
+        // console.log(data);
+
         return {
           data: data[1],
           status: data[0],

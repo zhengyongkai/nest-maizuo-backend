@@ -96,7 +96,7 @@ export class OrderController {
     if (req.user) {
       const { oNum, price, subject, orderId } = params;
       const order = await this.appService.getOrderByONum(oNum);
-      console.log(order.status);
+      // console.log(order.status);
       if (order.status === 2) {
         return [500, null, '订单已经过期'];
       }
@@ -143,7 +143,7 @@ export class OrderController {
     if (req.user) {
       const { out_trade_no, trade_no } = params;
       const order = await this.appService.getOrderByONum(out_trade_no);
-      console.log(order, out_trade_no);
+      // console.log(order, out_trade_no);
       if (order) {
         const result = await this.sdk.pageExec('alipay.trade.query', {
           bizContent: {

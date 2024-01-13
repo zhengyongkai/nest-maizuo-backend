@@ -24,7 +24,7 @@ export class OrderService {
   async addOrder(params): Promise<any> {
     const { raw } = await this.orderResitory.insert(params);
 
-    console.log(raw.insertId);
+    // console.log(raw.insertId);
     return raw.insertId;
   }
 
