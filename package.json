@@ -37,6 +37,7 @@
     "mysql2": "^3.6.5",
     "reflect-metadata": "^0.1.13",
     "rxjs": "^7.8.1",
+    "socket.io": "^4.7.4",
     "ts-mocks": "^3.0.1",
     "typeorm": "^0.3.17"
   },

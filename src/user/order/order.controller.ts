@@ -112,7 +112,7 @@ export class OrderController {
           seller_id: SELLERID,
           goods_detail: [orderId],
         },
-        return_url: 'http://localhost:5173/#/orderquery',
+        return_url: `http://localhost:5173/#/orderInfo/${orderId}`,
       });
       return [0, result];
     }
