@@ -16,6 +16,7 @@ import { SocketGuard } from './socket.guard';
 import { UseGuards } from '@nestjs/common';
 import { jwtConstants } from 'src/constants/auth';
 import { JwtService } from '@nestjs/jwt';
+import { helloMessage, messageMap, robotMessage } from './robot';
 
 @WebSocketGateway(3001, {
   allowEIO3: true, //协议前后端版本要一致
@@ -60,43 +61,12 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('robot')
   toServer(client: Socket, data: any) {
-    console.log(data);
-    // console.log(client);
+    console.log(data, messageMap.get(data));
     if (!data) {
-      client.emit('message', {
-        type: 'selected',
-        title: '欢迎使用,输入票号可以直接查询当前订单',
-        date: new Date(),
-        from: '机器人',
-        fromId: -1,
-        data: [
-          {
-            title: '怎么使用React-MAIZUO的App',
-            url: '',
-          },
-          {
-            title: '有疑问？',
-            url: '',
-          },
-        ],
-      });
-
-      client.emit('message', {
-        type: 'text',
-        title:
-          '您好，您可以用微信扫一扫，扫描一下卡片背面的兑票二维码或者微信关注公众号“卖座网”--点击“用户中心”--“我的订单”--“卖座券”-- 添加新的卖座券 -- 输入卡号密码进行查询即可，感谢您对卖座网的理解与支持，祝您生活愉快。',
-        date: new Date(),
-        from: '机器人',
-        fromId: -1,
-      });
-    } else if (data === '怎么使用React-MAIZUO的App') {
-      client.emit('message', {
-        type: 'text',
-        title: '直接使用即可',
-        date: new Date(),
-        from: '机器人',
-        fromId: -1,
-      });
+      client.emit('message', helloMessage);
+      client.emit('message', robotMessage);
+    } else if (messageMap.get(data)) {
+      client.emit('message', messageMap.get(data));
     }
   }
 }
