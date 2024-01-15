@@ -3,23 +3,36 @@
  * @LastEditors: 郑永楷
  * @Description: file content
  */
-import {
-  CanActivate,
-  ExecutionContext,
-  HttpException,
-  HttpStatus,
-  Injectable,
-} from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants/auth';
 import { Request } from 'express';
+import { IoAdapter } from '@nestjs/platform-socket.io';
+import { Server, Socket } from 'socket.io';
 
 @Injectable()
 export class SocketGuard implements CanActivate {
   constructor(private jwtService: JwtService) {}
 
+  // 主要是 connect 方法不会触发 canActivate
+  static async verifyToken(
+    jwtService: JwtService,
+    socket: Socket,
+    token: string,
+  ) {
+    try {
+      const payload = await jwtService.verifyAsync(token, {
+        secret: jwtConstants.secret,
+      });
+      return payload.uid;
+    } catch {
+      socket.disconnect();
+      console.log('socket 失效');
+    }
+    return null;
+  }
+
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    console.log('good');
     const request = context.switchToWs().getClient();
 
     const token = this.extractTokenFromHeader(request) as string;
@@ -28,16 +41,11 @@ export class SocketGuard implements CanActivate {
       request.disconnect();
     }
 
-    try {
-      const payload = await this.jwtService.verifyAsync(token, {
-        secret: jwtConstants.secret,
-      });
-      console.log(request['handshake']['query']);
-      request['handshake']['query']['user'] = payload.uid;
-    } catch {
-      request.disconnect();
-      console.log('失效');
-    }
+    request['handshake']['query']['user'] = await SocketGuard.verifyToken(
+      this.jwtService,
+      request,
+      token,
+    );
 
     return true;
   }

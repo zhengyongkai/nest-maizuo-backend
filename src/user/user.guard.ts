@@ -13,6 +13,7 @@ import {
 import { JwtService } from '@nestjs/jwt';
 import { jwtConstants } from '../constants/auth';
 import { Request } from 'express';
+import { Socket } from 'socket.io';
 
 @Injectable()
 export class AuthGuard implements CanActivate {

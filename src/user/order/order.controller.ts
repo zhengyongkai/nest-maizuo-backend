@@ -26,6 +26,7 @@ import {
   PRODUCTCODE,
   SELLERID,
 } from 'src/constants/common';
+import { ConfigService } from '@nestjs/config';
 
 @Controller('order')
 export class OrderController {
@@ -35,6 +36,7 @@ export class OrderController {
     private readonly seatService: SeatService,
     private readonly dictService: DictService,
     private readonly httpSerivce: HttpService,
+    private readonly configService: ConfigService,
   ) {
     this.sdk = new AlipaySdk({
       appId: APPID,
@@ -112,7 +114,7 @@ export class OrderController {
           seller_id: SELLERID,
           goods_detail: [orderId],
         },
-        return_url: `http://localhost:5173/#/orderInfo/${orderId}`,
+        return_url: `${this.configService.get('APPLY_ORDER_URL')}${orderId}`,
       });
       return [0, result];
     }
