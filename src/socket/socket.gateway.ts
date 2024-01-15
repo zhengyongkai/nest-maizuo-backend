@@ -22,7 +22,7 @@ import { JwtService } from '@nestjs/jwt';
   //后端解决跨域
   namespace: 'socket',
   cors: {
-    origin: 'http://localhost:5173', //这里不要写*，要写具体，否则会出现跨域问题
+    origin: '*', //这里不要写*，要写具体，否则会出现跨域问题
     credentials: true,
   },
 })

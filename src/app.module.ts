@@ -26,7 +26,7 @@ import { join } from 'path';
       useFactory: (config: ConfigService) => {
         return {
           ...config.get('DATABASE'),
-          entities: [join('./' + __dirname, '**', '*.entity.{js,ts}')],
+          entities: [join(__dirname, '**', '*.entity.{js,ts}')],
         };
       },
       inject: [ConfigService],

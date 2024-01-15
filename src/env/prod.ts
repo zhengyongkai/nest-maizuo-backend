@@ -4,7 +4,7 @@ const Prod = {
 
   DATABASE: {
     type: 'mysql',
-    host: 'localhost',
+    host: '134.175.103.137',
     port: 3306,
     username: 'root',
     password: 'sise',
