@@ -13,14 +13,17 @@ export class Order {
   constructor(partial: Partial<Order>) {
     Object.assign(this, partial);
   }
+
   @PrimaryColumn({
     name: 'orderId',
   })
   orderId: number;
+
   @Column({
     name: 'oNum',
   })
   oNum: string;
+
   @Column({
     name: 'userId',
   })

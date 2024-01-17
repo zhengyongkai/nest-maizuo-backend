@@ -8,15 +8,14 @@ import {
   WebSocketServer,
 } from '@nestjs/websockets';
 import { SocketService } from './socket.service';
-import { CreateSocketDto } from './dto/create-socket.dto';
-import { UpdateSocketDto } from './dto/update-socket.dto';
 // import { Socket } from 'dgram';
 import { Server, Socket } from 'socket.io';
 import { SocketGuard } from './socket.guard';
 import { UseGuards } from '@nestjs/common';
-import { jwtConstants } from 'src/constants/auth';
 import { JwtService } from '@nestjs/jwt';
-import { helloMessage, messageMap, robotMessage } from './robot';
+import { getAutoMessage, getEmptyMessage, getOrderMessage, map } from './robot';
+import { OrderService } from 'src/user/order/order.service';
+import { DictService } from 'src/user/dict/dict.service';
 
 @WebSocketGateway(3001, {
   allowEIO3: true, //协议前后端版本要一致
@@ -38,6 +37,8 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   constructor(
     private readonly socketService: SocketService,
     private jwtService: JwtService,
+    private orderService: OrderService,
+    private dictService: DictService,
   ) {}
 
   // 断开连接的时候 将 rooms 中用户 注销点
@@ -60,13 +61,27 @@ export class SocketGateway implements OnGatewayConnection, OnGatewayDisconnect {
   }
 
   @SubscribeMessage('robot')
-  toServer(client: Socket, data: any) {
-    console.log(data, messageMap.get(data));
+  async toServer(client: Socket, data: string) {
+    console.log(data);
+    const user = client.handshake.query['user'];
+    const key = data && data.split('+');
     if (!data) {
-      client.emit('message', helloMessage);
-      client.emit('message', robotMessage);
-    } else if (messageMap.get(data)) {
-      client.emit('message', messageMap.get(data));
+      client.emit('message', getAutoMessage('hello'));
+    } else if (map.get(data)) {
+      client.emit('message', getAutoMessage(data));
+    } else if (key && key[0] === '单号' && key[1]) {
+      const oNum = key[1];
+      const order = await this.orderService.getOrderItem(user, oNum);
+      if (order) {
+        const statusName = await this.dictService.getOne(
+          'order_status',
+          order.status,
+        );
+        order.statusName = statusName.dictName;
+      }
+      client.emit('message', getOrderMessage(order));
+    } else {
+      client.emit('message', getEmptyMessage());
     }
   }
 }
