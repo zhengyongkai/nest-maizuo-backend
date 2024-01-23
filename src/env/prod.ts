@@ -1,14 +1,14 @@
 const Prod = {
   BASE_URL: '',
-  APPLY_ORDER_URL: 'http://134.175.103.137/movice/#/orderInfo/',
+  APPLY_ORDER_URL: '',
 
   DATABASE: {
-    type: 'mysql',
-    host: '134.175.103.137',
-    port: 3306,
-    username: 'root',
-    password: 'sise',
-    database: 'maizuo',
+    type: '',
+    host: '',
+    port: '',
+    username: '',
+    password: '',
+    database: '',
   },
 };
 

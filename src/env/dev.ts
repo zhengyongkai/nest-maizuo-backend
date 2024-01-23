@@ -1,4 +1,3 @@
-console.log(__dirname);
 const Dev = {
   BASE_URL: '',
   APPLY_ORDER_URL: 'http://localhost:5173/#/orderInfo/',
