@@ -19,7 +19,7 @@ src\env\dev.ts
 src\env\prod.ts
 ```
 
-### 生产环境执行 （记得先修改 `src\env\dev.ts`）
+### 生产环境执行 （记得先修改 `src\env\prod.ts`）
 
 ```js
 npm run start:prod
